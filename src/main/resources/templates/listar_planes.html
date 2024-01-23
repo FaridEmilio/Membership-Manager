@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head}"></head>
+
+<body style="background-color: gold">
+	<header th:replace="~{layout/layout :: header}"></header>
+	<div class="container py-3">
+		<div class="card">
+
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a th:href="@{/planes/nuevo_plan}" class="btn btn-xs" style="background-color: gold;">
+						<i class="bi bi-journal-plus"></i> Nuevo Plan</a>
+
+				</h4>
+
+				<table class="table table-sm table-striped text-center">
+					<thead>
+						<tr>
+							<th></th>
+							
+							<th>Nombre</th>
+							<th>Días</th>
+							<th>Precio</th>
+						</tr>
+
+					</thead>
+					<tbody>
+						<tr th:each="plan: ${planes}">
+							<td>
+								<i class="bi bi-journal-text" style="color: darkgoldenrod;"></i>
+							</td>
+														<td th:text="${plan.nombre}"></td>
+							<td th:text="${plan.dias}"></td>
+							<td th:text="'$' + ${plan.precio}"></td>
+							<td>
+								<a th:href="@{/planes/editar/} + ${plan.id}">
+									<i class="bi bi-pencil-square" style="color: royalblue;"></i>
+								</a>
+							<td>
+								<a th:href="@{/planes/eliminar/} + ${plan.id}">
+									<i class="bi bi-trash3" style="color: red;"></i>
+								</a>
+							</td>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+		function confirmarEliminar(nombre, apellido) {
+			var mensaje = '¿Deseas eliminar a ' + nombre + ' ' + apellido + ' de forma permanente?';
+			return confirm(mensaje);
+		}
+	</script>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

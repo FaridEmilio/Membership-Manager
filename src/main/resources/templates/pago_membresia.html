@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+</head>
+
+<head th:replace="~{layout/layout :: head}">
+
+	<style>
+		form {
+			max-width: 500px;
+			/* Ancho máximo del formulario */
+			margin: auto;
+			/* Centra el formulario en la pantalla */
+			background-color: #fff;
+			/* Fondo blanco para el formulario */
+			padding: 40px;
+			/* Espacio interno del formulario */
+			border-radius: 30px;
+			/* Bordes redondeados */
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			/* Sombra ligera */
+		}
+	</style>
+</head>
+
+<body>
+	<header th:replace="~{layout/layout :: header}"></header>
+
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6 shadow p-3 mb-5 bg-light rounded">
+				<h2 class="text-center mb-5" th:text="${titulo}"></h2>
+
+				<div class="mb-3">
+					<h5 th:text="'Miembro: ' + ${cliente.apellido + ', ' + cliente.nombre}"></h5>
+					<h5 th:text="'DNI: ' + ${cliente.dni}"></h5>
+					<h5 th:class="${cliente.membresia.estadoMembresiaActiva} ? 'text-success' : 'text-danger'"
+						th:text="${cliente.membresia.estadoMembresiaActiva} ? 'Membresía Activa' : 'Membresía Vencida'">
+					</h5>
+					<h5 th:text="'Fecha de vencimiento : ' + ${#temporals.format(cliente.membresia.vencimiento, 'dd-MM-yyyy')}"></h5>
+				</div>
+
+
+				<div class="mb-2">
+					<h3>Actualiza la membresía aquí</h3>
+				</div>
+
+				<form th:action="@{/pago/} + ${cliente.dni}" th:object="${cliente}" method="post" class="mx-auto p-2">
+
+					<div class="mb-2">
+						<label class="col-sm-2 col-form-label" for="planMensual">PLAN</label>
+						<div class="col-auto">
+							<select class="form-select form-select-sm" id="planMensual"
+								th:field="*{membresia.planMensual}">
+								<option value="">Seleccionar Plan</option>
+								<option th:each="plan: ${listaPlanes}"
+									th:text="${plan.nombre} + ' - ' + ${plan.dias} + ' DÍAS - $' + ${plan.precio}"
+									th:value="${plan.id}">
+								</option>
+							</select>
+						</div>
+						<div th:if="${#fields.hasErrors('membresia.planMensual')}" th:errors="*{membresia.planMensual}"
+							class="alert alert-danger">
+						</div>
+					</div>
+					<div class="mb-5 row">
+					<div class="mb-2">
+						<label class="col-form-label col-form-label" for="fechaAlta">Fecha de Alta</label>
+						<div class="col-auto">
+							<input type="date" class="form-control form-control-sm" id="fechaAlta"
+								th:field="*{membresia.fechaDeAlta}" th:value="${#temporals.format(cliente.membresia.fechaDeAlta, 'yyyy-MM-dd')}" aria-describedby="FechaAltaHelpBlock">
+							<div id="FechaAltaHelpBlock" class="form-text">
+								Indica el día específico de cada mes en el cual el usuario deberá realizar el pago de la
+								cuota
+							</div>
+						</div>
+					</div>
+					<div class="mb-2">
+						<label class="col-form-label col-form-label" for="vencimiento">Fecha de Vencimiento</label>
+						<div class="col-auto">
+							<input type="date" class="form-control form-control-sm" id="vencimiento"
+								th:field="*{membresia.vencimiento}" aria-describedby="FechaAltaHelpBlock">
+							<div id="vencimientoHelpBlock" class="form-text">
+								Indica la fecha de vencimiento de la membresía
+							</div>
+						</div>
+					</div>
+					
+					</div>
+
+					<div class="d-grid gap-2 col-6 mx-auto mt-4">
+						<input type="submit" th:value="${tituloBoton}" class="btn btn-dark">
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

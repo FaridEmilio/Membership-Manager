@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head}"></head>
+
+<body style="background-color: gold; display: flex; flex-direction: column; min-height: 100vh;">
+
+	<header th:replace="~{layout/layout :: header}"></header>
+	<div class="container py-4">
+		<div class="card">
+
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-sm">
+							<a class="btn btn-xs ml-sm-auto" style="background-color: gold;" th:href="@{/form}">
+								<i class="bi bi-person-fill-add"></i> Nuevo Miembro
+							</a>
+						</div>
+
+						<div class="col-sm">
+							<a>
+								<i class="bi bi-circle-fill" style="color: lightgreen;"></i>
+								<span th:text="${totalActivas} + ' activas'"></span>
+							</a>
+							<a>
+								<i class="bi bi-circle-fill" style="color: lightcoral;"></i>
+								<span th:text="${totalVencidas} + ' vencidas'"></span>
+							</a>
+						</div>
+						<div class="col-sm mt-1">
+							<form class="row g-3" th:action="@{/listar}">
+								<div class="col-auto">
+									<div class="input-group">
+										<input class="form-control form-control-sm" type="text" name="keyWord"
+											placeholder="Nombre o DNI" th:value="${keyWord}">
+
+										<span class="input-group-text">
+											<a th:href="@{/listar}">
+												<i class="bi bi-x"></i>
+											</a>
+										</span>
+
+									</div>
+								</div>
+								<div class="col-auto">
+									<button type="submit" class="btn btn-sm ml-auto"
+										style="background-color: gold;">Buscar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="table-responsive">
+					<table class="table table-sm table-striped text-center">
+						<thead>
+							<tr>
+								<th></th>
+								<th>DNI</th>
+								<th>Nombre</th>
+								<th>Apellido</th>
+								<th>Fecha Inicio</th>
+								<th>Plan</th>
+								<th>Estado Membresía</th>
+								<th>Vencimiento</th>
+
+
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr th:each="cliente: ${clientes}">
+								<td>
+									<i th:if="${cliente.genero == 'MASCULINO'}" class="bi bi-person-fill"
+										style="color: lightblue;"></i>
+									<i th:if="${cliente.genero == 'FEMENINO'}" class="bi bi-person-fill"
+										style="color: pink;"></i>
+									<i th:if="${cliente.genero == 'OTRO'}" class="bi bi-person-fill"
+										style="color: darkgrey;"></i>
+
+								</td>
+								<td th:text="${cliente.dni}"></td>
+								<td th:text="${cliente.nombre}"></td>
+								<td th:text="${cliente.apellido}"></td>
+								<td th:text="${#temporals.format(cliente.fechaInicio, 'dd-MM-yyyy')}"></td>
+								<td th:text="${cliente.membresia.planMensual.nombre}"></td>
+								<td th:class="${cliente.membresia.estadoMembresiaActiva} ? 'text-success' : 'text-danger'"
+									th:text="${cliente.membresia.estadoMembresiaActiva} ? 'Activa' : 'Vencida'"></td>
+								<td th:text="${#temporals.format(cliente.membresia.vencimiento, 'dd-MM-yyyy')}"></td>
+
+								<td>
+									<a th:href="@{/pago/} + ${cliente.dni}">
+										<i class="bi bi-cash" style="color: forestgreen;"></i>
+									</a>
+								</td>
+								</td>
+								<td>
+									<a th:href="@{/form/} + ${cliente.dni}">
+										<i class="bi bi-pencil-square" style="color: royalblue;"></i>
+									</a>
+								<td>
+									<a th:href="@{/eliminar/} + ${cliente.dni}">
+										<i class="bi bi-trash3" style="color: red;"
+											onclick="return confirmarEliminar('${cliente.nombre}', '${cliente.apellido}')">
+										</i>
+									</a>
+								</td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+				<nav th:replace="~{paginator-nav :: paginator}"></nav>
+			</div>
+		</div>
+	</div>
+	<script>
+		function confirmarEliminar(nombre, apellido) {
+			var mensaje = '¿Deseas eliminar a ' + nombre + ' ' + apellido + ' de forma permanente?';
+			return confirm(mensaje);
+		}
+	</script>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

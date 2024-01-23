@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+</head>
+
+<head th:replace="~{layout/layout :: head}">
+
+	<style>
+		form {
+			max-width: 500px;
+			/* Ancho máximo del formulario */
+			margin: auto;
+			/* Centra el formulario en la pantalla */
+			background-color: #fff;
+			/* Fondo blanco para el formulario */
+			padding: 40px;
+			/* Espacio interno del formulario */
+			border-radius: 30px;
+			/* Bordes redondeados */
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			/* Sombra ligera */
+		}
+	</style>
+</head>
+
+<body>
+	<header th:replace="~{layout/layout :: header}"></header>
+
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-5 shadow p-3 mb-5 bg-light rounded">
+				<h2 class="text-center" th:text="${titulo}"></h2>
+				<form th:action="${editMode} ? '/form/' + ${cliente.dni} : '/form'" th:object="${cliente}" method="post" class="mx-auto p-2">
+
+					<div class="mb-2">
+						<label class="col-sm-2 col-form-label" for="nombre">Nombre</label>
+						<div class="col-auto">
+							<input class="form-control form-control-sm" type="text" id="nombre" th:field="*{nombre}">
+						</div>
+						<div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="alert alert-danger">
+						</div>
+
+					</div>
+
+					<div class="mb-2">
+						<label class="col-sm-2 col-form-label" for="apellido">Apellido</label>
+						<div class="col-auto">
+							<input class="form-control form-control-sm" type="text" id="apellido"
+								th:field="*{apellido}">
+						</div>
+						<div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"
+							class="alert alert-danger"></div>
+					</div>
+
+					<div class="mb-2">
+						<label class="col-form-label col-form-label" for="dni">Número de Documento</label>
+
+						<div class="col-auto">
+							<input class="form-control form-control-sm" type="text" id="dni" th:field="*{dni}"
+								placeholder="DNI sin puntos">
+						</div>
+
+						<div class="col-md-6 mt-2 mt-md-0">
+							<div th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="alert alert-danger">
+							</div>
+						</div>
+					</div>
+
+
+
+
+					<div class="mb-2">
+						<label class="col-sm-2 col-form-label" for="genero">Género</label>
+
+						<div class="form-check col-sm-7 col-12">
+							<input class="form-check-input" type="radio" id="masculino" th:field="*{genero}"
+								value="MASCULINO">
+							<label class="form-check-label" for="masculino">Masculino</label>
+						</div>
+
+						<div class="form-check col-sm-5 col-12 mt-2">
+							<input class="form-check-input" type="radio" id="femenino" th:field="*{genero}"
+								value="FEMENINO">
+							<label class="form-check-label" for="femenino">Femenino</label>
+						</div>
+
+						<div class="form-check col-sm-5 col-12 mt-2">
+							<input class="form-check-input" type="radio" id="otro" th:field="*{genero}" value="OTRO">
+							<label class="form-check-label" for="otro">Otro</label>
+						</div>
+					</div>
+
+
+					<div th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}" class="alert alert-danger"></div>
+					<div class="mb-2">
+						<label class="col-form-label col-form-label" for="numeroCelular">Número de celular</label>
+
+						<div class="col-auto">
+							<input class="form-control form-control-sm" type="text" id="numeroCelular"
+								th:field="*{numeroCelular}" placeholder="Número personal">
+						</div>
+
+						<div class="col-md-6 mt-2 mt-md-0">
+							<div th:if="${#fields.hasErrors('numeroCelular')}" th:errors="*{numeroCelular}"
+								class="alert alert-danger">
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-2">
+						<label class="col-form-label col-form-label" for="numeroCelularEmergencia">Número de
+							Emergencias</label>
+
+						<div class="col-auto">
+							<input class="form-control form-control-sm" type="text" id="numeroCelularEmergencia"
+								th:field="*{numeroCelularEmergencia}" placeholder="Número para Emergencias">
+						</div>
+
+						<div class="col-md-6 mt-2 mt-md-0">
+							<div th:if="${#fields.hasErrors('numeroCelularEmergencia')}"
+								th:errors="*{numeroCelularEmergencia}" class="alert alert-danger">
+							</div>
+						</div>
+					</div>
+					<div class="d-grid gap-2 col-6 mx-auto mt-4">
+						<input type="submit" th:value="${tituloBoton}" class="btn btn-dark">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>
