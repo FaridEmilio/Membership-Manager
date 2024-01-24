@@ -6,17 +6,13 @@ import com.emilio.springboot.app.models.entities.Membresia;
 
 public interface IMembresiaService {
 
-	/**
-	 * Este método determina si la membresía está activa.
-	 * 
-	 * @return
-	 */
+	
 	public Membresia findById(Long id);
 
 	public void save(Membresia membresia);
 
 	/**
-	 * btiene todas las membresías y llama al método isMembresiaActiva para cada una
+	 * Obtiene todas las membresías y llama al método isMembresiaActiva para cada una
 	 * de ellas. Este método verificará y actualizará el estado de la membresía
 	 * según la lógica implementada
 	 */
