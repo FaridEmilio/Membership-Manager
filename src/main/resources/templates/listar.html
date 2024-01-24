@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
 
 <head th:replace="~{layout/layout :: head}"></head>
 
-<body style="background-color: gold; display: flex; flex-direction: column; min-height: 100vh;">
-
+<body style="display: flex; flex-direction: column; min-height: 100%; background-color: gold;">
 	<header th:replace="~{layout/layout :: header}"></header>
 	<div class="container py-4">
 		<div class="card">
@@ -30,7 +29,7 @@
 							</a>
 						</div>
 						<div class="col-sm mt-1">
-							<form class="row g-3" th:action="@{/listar}">
+							<form class="row g-3" th:action="@{/listar}" role="search">
 								<div class="col-auto">
 									<div class="input-group">
 										<input class="form-control form-control-sm" type="text" name="keyWord"
@@ -38,16 +37,15 @@
 
 										<span class="input-group-text">
 											<a th:href="@{/listar}">
-												<i class="bi bi-x"></i>
+												<i class="bi bi-x" style="color: lightcoral;"></i>
 											</a>
 										</span>
+										<button type="submit" class="btn btn ml-auto"
+										style="background-color: gold;">Buscar</button>
 
 									</div>
 								</div>
-								<div class="col-auto">
-									<button type="submit" class="btn btn-sm ml-auto"
-										style="background-color: gold;">Buscar</button>
-								</div>
+								
 							</form>
 						</div>
 					</div>

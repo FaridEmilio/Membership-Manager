@@ -49,7 +49,7 @@ public class ClienteController {
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
 			@Param("keyWord") String keyWord) {
 		
-		membresiaService.verificarYActualizarMembresias();
+		//membresiaService.verificarYActualizarMembresias();
 		Pageable pageRequest = PageRequest.of(page, 10);
 
 		if (keyWord != null) {
