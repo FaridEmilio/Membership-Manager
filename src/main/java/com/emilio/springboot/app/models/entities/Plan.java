@@ -1,8 +1,17 @@
-package com.emilio.springboot.app.models.entities;
+/**
+ * Clase que representa un plan en el sistema.
+ * Cada plan define un conjunto de características como nombre, duración en días y precio.
+ * Esta clase se utiliza en la capa de persistencia para mapear la entidad "planes" en la base de datos.
+ * 
+ * @author Emilio Barrios
+ * @version 1.0
+ * @since 15-01-2024
+ */
 
+
+package com.emilio.springboot.app.models.entities;
 import java.io.Serializable;
 import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,10 +47,20 @@ public class Plan implements Serializable {
 	@OneToMany(mappedBy = "planMensual")  // Nombre del campo en la clase Membresia que mapea la relación
 	 private Set<Membresia> membresias;
 
-	
+	/**
+	 * Constructor vacío necesario para JPA.
+	 */
 	public Plan() {
 	}
 
+	/**
+     * Constructor que inicializa los atributos de un plan.
+     * 
+     * @param id     Identificador único del plan.
+     * @param nombre Nombre del plan.
+     * @param dias   Duración en días del plan.
+     * @param precio Precio del plan.
+     */
 	public Plan(Integer id, String nombre, int dias, int precio) {
 		this.id = id;
 		this.nombre = nombre;

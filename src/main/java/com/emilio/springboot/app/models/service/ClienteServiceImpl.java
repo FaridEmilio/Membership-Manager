@@ -37,6 +37,12 @@ public class ClienteServiceImpl implements IClienteService {
 		return clienteDao.findById(id).orElse(null);
 	}
 
+	/**
+	 * Método que recupera todos los clientes paginados.
+	 *
+	 * @param pageable Objeto Pageable que define la paginación y ordenación de los resultados.
+	 * @return Página de clientes según la configuración de paginación.
+	 */
 	@Transactional(readOnly = true)
 	@Override
 	public Page<Cliente> findAll(Pageable pageable) {
@@ -49,6 +55,13 @@ public class ClienteServiceImpl implements IClienteService {
 		clienteDao.deleteById(id);
 	}
 	
+	/**
+	 * Método para eliminar un cliente por su ID, junto con la membresía asociada.
+	 * Se obtiene el ID de la membresía asociada al cliente y se eliminan ambos registros
+	 * de manera transaccional.
+	 *
+	 * @param id Identificador único del cliente que se va a eliminar.
+	 */
 	@Transactional
 	@Override
 	public void deleteConMembresia(Long id) {		

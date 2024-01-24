@@ -1,8 +1,15 @@
-package com.emilio.springboot.app.models.entities;
+/**
+ * Clase que representa un cliente de un gimnasio con una membresía asociada.
+ * Esta clase se utiliza en la capa de persistencia para mapear la entidad "clientes" en la base de datos.
+ * 
+ * @author Emilio Barrios
+ * @version 1.0
+ * @since 15-01-2024
+ */
 
+package com.emilio.springboot.app.models.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

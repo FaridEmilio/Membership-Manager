@@ -45,11 +45,20 @@ public class ClienteController {
 	@Autowired
 	private IClienteDao clienteDao;
 
+	/**
+	 * Endpoint para listar los miembros paginados asi como tambien filtrados por
+	 * palabra clave si la keyword no es nula.
+	 * 
+	 * @param page
+	 * @param model
+	 * @param keyWord
+	 * @return Lista de Clientes paginados
+	 */
 	@GetMapping("/listar")
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model,
 			@Param("keyWord") String keyWord) {
-		
-		//membresiaService.verificarYActualizarMembresias();
+
+		// membresiaService.verificarYActualizarMembresias();
 		Pageable pageRequest = PageRequest.of(page, 10);
 
 		if (keyWord != null) {
@@ -75,11 +84,25 @@ public class ClienteController {
 		return "listar";
 	}
 
+	/**
+	 * Método para cargar la lista de planes en el modelo antes de mostrar el
+	 * formulario de creación de cliente.
+	 * 
+	 * @return Lista de planes disponibles.
+	 */
 	@ModelAttribute("listaPlanes")
 	public List<Plan> listaPlanes() {
 		return planService.findAll();
 	}
 
+	/**
+	 * Endpoint para mostrar el formulario de creación de un nuevo miembro. Se
+	 * aplica la logica para el manejo de fechas cuando se crea un miembro por
+	 * primera vez.
+	 * 
+	 * @param model Objeto Model para enviar datos a la vista.
+	 * @return Nombre de la vista a mostrar ("form").
+	 */
 	@GetMapping("/form")
 	public String crearCliente(Model model) {
 		Cliente cliente = new Cliente();
@@ -109,6 +132,20 @@ public class ClienteController {
 
 	}
 
+	/**
+	 * Endpoint para procesar el formulario de creación de un nuevo miembro.
+	 * 
+	 * @param cliente      Objeto Cliente con los datos del nuevo miembro.
+	 * @param result       Resultado de la validación de datos del cliente.
+	 * @param membresia    Objeto Membresia con los datos de la membresía del nuevo
+	 *                     miembro.
+	 * @param resultMembre Resultado de la validación de datos de la membresía.
+	 * @param model        Objeto Model para enviar datos a la vista.
+	 * @param flash        Objeto RedirectAttributes para agregar mensajes flash.
+	 * @param status       Objeto SessionStatus para gestionar el estado de la
+	 *                     sesión.
+	 * @return Redirección a la vista de lista de miembros ("redirect:/listar").
+	 */
 	@PostMapping("/form")
 	public String guardar(@Valid Cliente cliente, BindingResult result,
 			@Valid @ModelAttribute("membresia") Membresia membresia, BindingResult resultMembre, Model model,
@@ -144,6 +181,16 @@ public class ClienteController {
 		return "redirect:/listar";
 	}
 
+	/**
+	 * Endpoint para cargar datos y mostrar el formulario de edición de un miembro.
+	 * 
+	 * Es importante guardar la membresia que viene como atributo del cliente.
+	 * 
+	 * @param id    Identificador único del miembro a editar.
+	 * @param model Objeto Model para enviar datos a la vista.
+	 * @param flash Objeto RedirectAttributes para agregar mensajes flash.
+	 * @return Nombre de la vista a mostrar ("form_editar").
+	 */
 	@GetMapping("/form/{id}")
 	public String editar(@PathVariable(value = "id") Long id, Model model, RedirectAttributes flash) {
 
@@ -167,16 +214,27 @@ public class ClienteController {
 		return "form_editar";
 	}
 
-	// Método para eliminar un cliente por ID
-	@GetMapping("/eliminar/{id}")
-	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
-		if (id > 0) {
-			clienteService.deleteConMembresia(id);
-			flash.addFlashAttribute("success", "Miembro eliminado con éxito!");
-		}
-		return "redirect:/listar";
-	}
-
+	/**
+	 * Endpoint para procesar el formulario de actualización de un miembro.
+	 * 
+	 * Se debe controlar si hubo cambios en el DNI que es el id del cliente en la
+	 * base de datos y puede causar errores. De ser así, se debe eliminar el cliente
+	 * con el id pasado por parametro y guardar el nuevo cliente con los mismos
+	 * datos y nuevo DNI(id)
+	 * 
+	 * EL problema se presenta cuando se tiene 2 miembros con el mismo membresia_id,
+	 * ya que este debe ser unico para cada miembro.
+	 * 
+	 * @param id           Identificador único del miembro a actualizar.
+	 * @param cliente      Objeto Cliente con los datos actualizados.
+	 * @param result       Resultado de la validación de datos del cliente.
+	 * @param resultMembre Resultado de la validación de datos de la membresía.
+	 * @param model        Objeto Model para enviar datos a la vista.
+	 * @param flash        Objeto RedirectAttributes para agregar mensajes flash.
+	 * @param status       Objeto SessionStatus para gestionar el estado de la
+	 *                     sesión.
+	 * @return Redirección a la vista de lista de miembros ("redirect:/listar").
+	 */
 	@PostMapping("/form/{id}")
 	public String update(@PathVariable(value = "id") Long id, @Valid Cliente cliente, BindingResult result,
 			BindingResult resultMembre, Model model, RedirectAttributes flash, SessionStatus status) {
@@ -201,7 +259,6 @@ public class ClienteController {
 			return "form_editar";
 		}
 
-		
 		// Guarda el cliente en la base de datos
 		clienteService.save(cliente);
 
@@ -211,6 +268,30 @@ public class ClienteController {
 		return "redirect:/listar";
 	}
 
+	/**
+	 * Endpoint para eliminar un miembro por ID.
+	 * 
+	 * @param id    Identificador único del miembro a eliminar.
+	 * @param flash Objeto RedirectAttributes para agregar mensajes flash.
+	 * @return Redirección a la vista de lista de miembros ("redirect:/listar").
+	 */
+	@GetMapping("/eliminar/{id}")
+	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
+		if (id > 0) {
+			clienteService.deleteConMembresia(id);
+			flash.addFlashAttribute("success", "Miembro eliminado con éxito!");
+		}
+		return "redirect:/listar";
+	}
+
+	/**
+	 * Endpoint para cargar datos y mostrar el formulario de pago de membresía.
+	 * 
+	 * @param id    Identificador único del miembro para el pago de membresía.
+	 * @param model Objeto Model para enviar datos a la vista.
+	 * @param flash Objeto RedirectAttributes para agregar mensajes flash.
+	 * @return Nombre de la vista a mostrar ("pago_membresia").
+	 */
 	@GetMapping("/pago/{id}")
 	public String pagoMembresia(@PathVariable(value = "id") Long id, Model model, RedirectAttributes flash) {
 
@@ -231,6 +312,24 @@ public class ClienteController {
 		return "pago_membresia";
 	}
 
+	/**
+	 * Endpoint para procesar el formulario de pago de membresía.
+	 * 
+	 * Actualiza la membresia existente.
+	 * 
+	 * @param id           Identificador único del miembro para el pago de
+	 *                     membresía.
+	 * @param cliente      Objeto Cliente con los datos actualizados.
+	 * @param result       Resultado de la validación de datos del cliente.
+	 * @param membresia    Objeto Membresia con los datos de la membresía
+	 *                     actualizada.
+	 * @param resultMembre Resultado de la validación de datos de la membresía.
+	 * @param model        Objeto Model para enviar datos a la vista.
+	 * @param flash        Objeto RedirectAttributes para agregar mensajes flash.
+	 * @param status       Objeto SessionStatus para gestionar el estado de la
+	 *                     sesión.
+	 * @return Redirección a la vista de lista de miembros ("redirect:/listar").
+	 */
 	@PostMapping("/pago/{id}")
 	public String pagoMembresia(@PathVariable(value = "id") Long id, @Valid Cliente cliente, BindingResult result,
 			@Valid @ModelAttribute("membresia") Membresia membresia, BindingResult resultMembre, Model model,
@@ -263,6 +362,59 @@ public class ClienteController {
 		status.setComplete();
 		flash.addFlashAttribute("success", "Membresía actualizada con éxito!");
 		return "redirect:/listar";
+	}
+
+	/**
+	 * Endpoint para listar los miembros con membresia activa paginados.
+	 * 
+	 * @param page  Número de página a mostrar.
+	 * @param model Objeto Model para enviar datos a la vista.
+	 * @return Nombre de la vista a mostrar ("listar").
+	 */
+	@GetMapping("/listar/activos")
+	public String listarActivos(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+
+		// membresiaService.verificarYActualizarMembresias();
+		Pageable pageRequest = PageRequest.of(page, 10);
+
+		Page<Cliente> clientes = clienteDao.clientesConMembresiaActiva(pageRequest);
+		PageRender<Cliente> pageRender = new PageRender<>("/listar/activos", clientes);
+		model.addAttribute("clientes", clientes);
+		model.addAttribute("page", pageRender);
+
+		long totalActivas = clienteDao.countClientesConMembresiaActiva();
+		long totalVencidas = clienteDao.countClientesConMembresiaVencida();
+		model.addAttribute("totalActivas", totalActivas);
+		model.addAttribute("totalVencidas", totalVencidas);
+		model.addAttribute("titulo", "Miembros de Full Gym");
+
+		return "listar";
+	}
+
+	/**
+	 * Endpoint para listar los miembros con membresía vencida paginados.
+	 * 
+	 * @param page  Número de página a mostrar.
+	 * @param model Objeto Model para enviar datos a la vista.
+	 * @return Nombre de la vista a mostrar ("listar").
+	 */
+	@GetMapping("/listar/vencidos")
+	public String listarVencidos(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+		// membresiaService.verificarYActualizarMembresias();
+		Pageable pageRequest = PageRequest.of(page, 10);
+
+		Page<Cliente> clientes = clienteDao.clientesConMembresiaVencida(pageRequest);
+		PageRender<Cliente> pageRender = new PageRender<>("/listar/vencidos", clientes);
+		model.addAttribute("clientes", clientes);
+		model.addAttribute("page", pageRender);
+
+		long totalActivas = clienteDao.countClientesConMembresiaActiva();
+		long totalVencidas = clienteDao.countClientesConMembresiaVencida();
+		model.addAttribute("totalActivas", totalActivas);
+		model.addAttribute("totalVencidas", totalVencidas);
+		model.addAttribute("titulo", "Miembros de Full Gym");
+
+		return "listar";
 	}
 
 }

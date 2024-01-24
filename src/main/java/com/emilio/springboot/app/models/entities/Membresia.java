@@ -1,5 +1,13 @@
+/**
+ * Clase que representa una membresía de un cliente.
+ * Esta clase se utiliza en la capa de persistencia para mapear la entidad "membresias" en la base de datos.
+ * Posee un plan asociado.
+ * 
+ * @author Emilio Barrios
+ * @version 1.0
+ * @since 15-01-2024
+ */
 package com.emilio.springboot.app.models.entities;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;

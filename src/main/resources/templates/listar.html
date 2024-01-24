@@ -12,23 +12,23 @@
 			<div class="card-body">
 				<div class="container">
 					<div class="row align-items-center">
-						<div class="col-sm">
+						<div class="col-sm mt-2">
 							<a class="btn btn-xs ml-sm-auto" style="background-color: gold;" th:href="@{/form}">
 								<i class="bi bi-person-fill-add"></i> Nuevo Miembro
 							</a>
 						</div>
 
-						<div class="col-sm">
-							<a>
+						<div class="col-sm text-left mt-2">
+							<a class="btn btn-xs ml-sm-auto" th:href="@{/listar/activos}" style="border: 1px solid lightgreen">
 								<i class="bi bi-circle-fill" style="color: lightgreen;"></i>
 								<span th:text="${totalActivas} + ' activas'"></span>
 							</a>
-							<a>
+							<a class="btn btn-xs ml-sm-auto" th:href="@{/listar/vencidos}" style="border: 1px solid lightcoral;">
 								<i class="bi bi-circle-fill" style="color: lightcoral;"></i>
 								<span th:text="${totalVencidas} + ' vencidas'"></span>
 							</a>
 						</div>
-						<div class="col-sm mt-1">
+						<div class="col-sm mt-2">
 							<form class="row g-3" th:action="@{/listar}" role="search">
 								<div class="col-auto">
 									<div class="input-group">
@@ -53,7 +53,7 @@
 
 
 
-				<div class="table-responsive">
+				<div class="table-responsive mt-2">
 					<table class="table table-sm table-striped text-center">
 						<thead>
 							<tr>

@@ -47,8 +47,28 @@ public interface IClienteDao extends JpaRepository<Cliente, Long> {
 	 */
 	@Query("SELECT COUNT(c) FROM Cliente c WHERE c.membresia.estadoMembresiaActiva = false")
 	public long countClientesConMembresiaVencida();
-
+	
+	
+	/**
+	 * Metodo para buscar cliente con una palabra clave, Nombre o DNI
+	 * @param keyWord
+	 * @param pageable
+	 * @return Clientes que coincidan con la palabra clave
+	 */
 	@Query("SELECT c FROM Cliente c WHERE" + " CONCAT(c.nombre,c.apellido,c.dni)" + " LIKE %:keyWord%")
 	public Page<Cliente> findAll(@Param("keyWord") String keyWord, Pageable pageable);
 
+	/**
+	 * Metodo que obtiene todos los clientes con membresia activa
+	 * @return Cliente con membresia activa
+	 */
+	@Query("SELECT c FROM Cliente c WHERE c.membresia.estadoMembresiaActiva = true")
+	public Page<Cliente> clientesConMembresiaActiva(Pageable pageable);
+	
+	/**
+	 * Metodo que obtiene todos los clientes con membresia vencida
+	 * @return Cliente con membresia vencida
+	 */
+	@Query("SELECT c FROM Cliente c WHERE c.membresia.estadoMembresiaActiva = false")
+	public Page<Cliente> clientesConMembresiaVencida(Pageable pageable);
 }

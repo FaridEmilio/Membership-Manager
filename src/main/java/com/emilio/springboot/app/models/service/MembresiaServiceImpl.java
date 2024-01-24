@@ -35,6 +35,15 @@ public class MembresiaServiceImpl implements IMembresiaService {
 		return (List<Membresia>) membresiaDao.findAll();
 	}
 
+	/**
+	 * Método programado para ejecutarse todos los días a las 12 AM, que verifica y actualiza
+	 * el estado de todas las membresías almacenadas en la base de datos.
+	 * 
+	 * Se utiliza la anotación @Transactional para garantizar la integridad de la transacción.
+	 * 
+	 * Se obtienen todas las membresías almacenadas y se itera sobre ellas para
+	 * verificar y actualizar cada una.
+	 */
 	@Override
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * ?") // Se ejecuta todos los días a las 12 AM
@@ -53,6 +62,14 @@ public class MembresiaServiceImpl implements IMembresiaService {
 		membresiaDao.deleteById(id);
 	}
 
+	/**
+	 * Método encargado de verificar y actualizar el estado de una membresía dado su ID.
+	 * Si la membresía existe, compara la fecha actual con la fecha de vencimiento
+	 * para determinar si la membresía sigue activa. 
+	 * Si hay un cambio en el estado de la membresía, se actualiza y guarda en la base de datos.
+	 *
+	 * @param id Identificador único de la membresía que se va a verificar y actualizar.
+	 */
 	@Override
 	@Transactional
 	public void verificarMembresia(Long id) {

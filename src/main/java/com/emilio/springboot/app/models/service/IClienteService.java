@@ -21,4 +21,5 @@ public interface IClienteService {
 	void delete(Long id);
 	
 	public void deleteConMembresia(Long id);
+		
 	}

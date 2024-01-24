@@ -42,6 +42,14 @@ public class PlanServiceImpl implements IPlanService {
 
 	}
 
+	/**
+	 * Método para eliminar un plan por su ID.
+	 * 
+	 * Al eliminar un plan, se eliminan también todos los clientes asociados a
+	 * membresías que tienen este plan, así como las membresías correspondientes al plan.
+	 *
+	 * @param id Identificador único del plan que se va a eliminar.
+	 */
 	@Override
 	public void delete(Integer id) {
 		clienteDao.deleteByMembresiaPlanId(id);
