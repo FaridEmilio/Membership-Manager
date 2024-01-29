@@ -79,7 +79,8 @@ public class ClienteController {
 		long totalVencidas = clienteDao.countClientesConMembresiaVencida();
 		model.addAttribute("totalActivas", totalActivas);
 		model.addAttribute("totalVencidas", totalVencidas);
-		model.addAttribute("titulo", "Miembros de Full Gym");
+		model.addAttribute("titulo", "Miembros");
+		model.addAttribute("tituloTabla", "Miembros de Full Gym");
 
 		return "listar";
 	}
@@ -156,19 +157,25 @@ public class ClienteController {
 			model.addAttribute("tituloBoton", "Registrar miembro");
 
 			return "form";
-		} else {
-			if (resultMembre.hasErrors()) {
+		} else { // Verificamos si el cliente es existente o no
+			if (clienteService.clienteExistente(cliente.getDni())) {
+				flash.addFlashAttribute("error", "El miembro ya está registrado en el sistema.");
+				// Marca la sesión como completa para que Spring MVC limpie la sesión
+				status.setComplete();
+				return "redirect:/listar";
+			} else {
+				if (resultMembre.hasErrors()) {
 
-				model.addAttribute("titulo", "Hay error en resultMember");
-				model.addAttribute("tituloBoton", "Registrar miembro");
+					model.addAttribute("titulo", "Hay error en resultMember");
+					model.addAttribute("tituloBoton", "Registrar miembro");
 
-				for (ObjectError error : resultMembre.getAllErrors()) {
-					System.out.println("Error: " + error.getDefaultMessage() + error.getObjectName());
-					return "form";
+					for (ObjectError error : resultMembre.getAllErrors()) {
+						System.out.println("Error: " + error.getDefaultMessage() + error.getObjectName());
+						return "form";
+					}
 				}
 			}
 		}
-
 		// Guarda la membresía en la base de datos
 		membresiaService.save(membresia);
 
@@ -246,9 +253,17 @@ public class ClienteController {
 
 		Cliente clienteExistente = clienteService.findById(id);
 		cliente.setMembresia(clienteExistente.getMembresia());
-
+		//Verificamos si el miembro cambio de dni
 		if (!cliente.getDni().equals(id)) {
-			clienteService.delete(id);
+			// si cambio de dni, verificamos si no existe previamente un dni identico
+			if (clienteService.clienteExistente(cliente.getDni())) {
+				flash.addFlashAttribute("error", "El miembro ya está registrado en el sistema.");
+				// Marca la sesión como completa para que Spring MVC limpie la sesión
+				status.setComplete();
+				return "redirect:/listar";
+			} else {
+				clienteService.delete(id);
+			}
 		}
 
 		if (result.hasErrors()) {
@@ -260,7 +275,7 @@ public class ClienteController {
 		}
 
 		// Guarda el cliente en la base de datos
-		clienteService.save(cliente);
+		clienteService.update(cliente);
 
 		// Marca la sesión como completa para que Spring MVC limpie la sesión
 		status.setComplete();

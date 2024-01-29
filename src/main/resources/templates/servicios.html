@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
+
+<head th:replace="~{layout/base :: head}"></head>
+
+<body style="display: flex; flex-direction: column; min-height: 100%;">
+	<header th:replace="~{layout/base :: header}"></header>
+
+	<section th:replace="~{layout/base :: section}"
+		th:style="'background: url(img/gym.jpg) no-repeat center; background-size: cover; width: 100%'">
+		<div th:replace="~{layout/base :: div-centro}">
+			<h2>servicoss</h2>
+		</div>
+	</section>
+
+	<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

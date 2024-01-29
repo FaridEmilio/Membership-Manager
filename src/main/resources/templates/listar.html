@@ -8,7 +8,7 @@
 	<div class="container py-4">
 		<div class="card">
 
-			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-header" th:text="${tituloTabla}"></div>
 			<div class="card-body">
 				<div class="container">
 					<div class="row align-items-center">
@@ -19,11 +19,13 @@
 						</div>
 
 						<div class="col-sm text-left mt-2">
-							<a class="btn btn-xs ml-sm-auto" th:href="@{/listar/activos}" style="border: 1px solid lightgreen">
+							<a class="btn btn-xs ml-sm-auto" th:href="@{/listar/activos}"
+								style="border: 1px solid lightgreen">
 								<i class="bi bi-circle-fill" style="color: lightgreen;"></i>
 								<span th:text="${totalActivas} + ' activas'"></span>
 							</a>
-							<a class="btn btn-xs ml-sm-auto" th:href="@{/listar/vencidos}" style="border: 1px solid lightcoral;">
+							<a class="btn btn-xs ml-sm-auto" th:href="@{/listar/vencidos}"
+								style="border: 1px solid lightcoral;">
 								<i class="bi bi-circle-fill" style="color: lightcoral;"></i>
 								<span th:text="${totalVencidas} + ' vencidas'"></span>
 							</a>
@@ -41,11 +43,11 @@
 											</a>
 										</span>
 										<button type="submit" class="btn btn ml-auto"
-										style="background-color: gold;">Buscar</button>
+											style="background-color: gold;">Buscar</button>
 
 									</div>
 								</div>
-								
+
 							</form>
 						</div>
 					</div>
@@ -103,7 +105,7 @@
 								<td>
 									<a th:href="@{/eliminar/} + ${cliente.dni}">
 										<i class="bi bi-trash3" style="color: red;"
-											onclick="return confirmarEliminar('${cliente.nombre}', '${cliente.apellido}')">
+											onclick="return confirm('Confirme para eliminar al miembro de forma permanente');">
 										</i>
 									</a>
 								</td>
@@ -118,12 +120,6 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		function confirmarEliminar(nombre, apellido) {
-			var mensaje = '¿Deseas eliminar a ' + nombre + ' ' + apellido + ' de forma permanente?';
-			return confirm(mensaje);
-		}
-	</script>
 	<footer th:replace="~{layout/layout :: footer}"></footer>
 </body>
 

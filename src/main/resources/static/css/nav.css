@@ -1,0 +1,149 @@
+.form {
+	max-width: 500px;
+	/* Ancho máximo del formulario */
+	margin: auto;
+	/* Centra el formulario en la pantalla */
+	background-color: #fff;
+	/* Fondo blanco para el formulario */
+	padding: 40px;
+	/* Espacio interno del formulario */
+	border-radius: 30px;
+	/* Bordes redondeados */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/* Sombra ligera */
+}
+
+.form-signin {
+	margin-top: 80px;
+	/* Ajusta el valor según la altura de tu navbar */
+}
+
+.containerEdit {
+	height: 100vh;
+	z-index: 1;
+	position: relative;
+
+}
+.btn-close{
+	background-color: gold;
+}
+.hero-section .container {
+	height: 100vh;
+	z-index: 1;
+	position: relative;
+
+}
+
+.offcanvas {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.navbar {
+	height: 80px;
+	margin: 20px;
+	border-radius: 16px;
+	padding: 0.5rem;
+}
+
+.navbar-toggler {
+	font-size: 1.25rem;
+	border: none;
+}
+
+.navbar-toggler .navbar-toggler-icon {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+.nav-link {
+	color: #fff;
+	font-weight: 500;
+	position: relative;
+}
+
+.nav-link:hover, .nav-link.active {
+	color: gold;
+}
+.titulo{
+	background: #ccc;
+	background: linear-gradient(#ffff84 0, #ffff77 10%, #ffff6d 20%, #fff163 30%, #ffd85b 40%, #f2bd53 50%, #dfa44c 60%, #cc8e47 70%, #bc7b43 80%, #ad6b40 90%, #a05e3e 100%);
+	font-family: fantasy;
+	font-size: 3rem;
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+}
+
+.titulo-contacto{
+	background: #ccc;
+	background: linear-gradient(#ffff84 0, #ffff77 10%, #ffff6d 20%, #fff163 30%, #ffd85b 40%, #f2bd53 50%, #dfa44c 60%, #cc8e47 70%, #bc7b43 80%, #ad6b40 90%, #a05e3e 100%);
+	font-size: 2rem;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+}
+
+@media (min-width: 991px) {
+	.nav-link::before {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 0%;
+		height: 2px;
+		background-color: gold;
+		visibility: hidden;
+		transition: 0.3s ease-in-out;
+	}
+
+	.nav-link:hover::before,
+	.nav-link.active::before {
+		width: 100%;
+		visibility: visible;
+	}
+}
+
+.boton-wpp {
+	border: 0;
+	background-image: linear-gradient(#ffff84 0, #ffff77 10%, #ffff6d 20%, #fff163 30%, #ffd85b 40%, #f2bd53 50%, #dfa44c 60%, #cc8e47 70%, #bc7b43 80%, #ad6b40 90%, #a05e3e 100%);
+	border-radius: 8px;
+	color: #fff;
+	display: flex;
+	font-size: 18px;
+	padding: 4px;
+	cursor: pointer;
+	transition: .3s;
+}
+
+.boton-wpp span {
+	background-color: #111;
+	padding: 16px 24px;
+	border-radius: 6px;
+	transition: .3s;
+}
+
+.boton-wpp:hover span {
+	background: none;
+	color: #111;
+}
+
+.boton-wpp .active {
+	transform: scale(0.9);
+}
+
+.hero-section::before {
+	background-color: rgba(0, 0, 0, 0.6);
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+
+}

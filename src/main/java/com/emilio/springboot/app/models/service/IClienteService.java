@@ -15,11 +15,15 @@ public interface IClienteService {
 	public Page<Cliente> findAll(Pageable pageable);
 
 	public void save(Cliente cliente);
+	
+	public void update(Cliente cliente);
 
 	public Cliente findById(Long id);
 
 	void delete(Long id);
 	
 	public void deleteConMembresia(Long id);
+	
+	public boolean clienteExistente(Long id);
 		
 	}

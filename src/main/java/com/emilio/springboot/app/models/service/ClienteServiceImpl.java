@@ -15,7 +15,7 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Autowired
 	private IClienteDao clienteDao;
-	
+
 	@Autowired
 	private IMembresiaDao membresiaDao;
 
@@ -28,7 +28,9 @@ public class ClienteServiceImpl implements IClienteService {
 	@Transactional
 	@Override
 	public void save(Cliente cliente) {
-		clienteDao.save(cliente);
+		if (!clienteDao.existsById(cliente.getDni())) {
+			clienteDao.save(cliente);
+		}
 	}
 
 	@Transactional(readOnly = true)
@@ -40,7 +42,8 @@ public class ClienteServiceImpl implements IClienteService {
 	/**
 	 * Método que recupera todos los clientes paginados.
 	 *
-	 * @param pageable Objeto Pageable que define la paginación y ordenación de los resultados.
+	 * @param pageable Objeto Pageable que define la paginación y ordenación de los
+	 *                 resultados.
 	 * @return Página de clientes según la configuración de paginación.
 	 */
 	@Transactional(readOnly = true)
@@ -54,20 +57,40 @@ public class ClienteServiceImpl implements IClienteService {
 	public void delete(Long id) {
 		clienteDao.deleteById(id);
 	}
-	
+
 	/**
 	 * Método para eliminar un cliente por su ID, junto con la membresía asociada.
-	 * Se obtiene el ID de la membresía asociada al cliente y se eliminan ambos registros
-	 * de manera transaccional.
+	 * Se obtiene el ID de la membresía asociada al cliente y se eliminan ambos
+	 * registros de manera transaccional.
 	 *
 	 * @param id Identificador único del cliente que se va a eliminar.
 	 */
 	@Transactional
 	@Override
-	public void deleteConMembresia(Long id) {		
+	public void deleteConMembresia(Long id) {
 		Long membresia_id = clienteDao.findById(id).get().getMembresia().getId();
 		clienteDao.deleteById(id);
 		membresiaDao.deleteById(membresia_id);
 	}
 
+	/**
+	 * Metodo para verificar si existe un cliente en la base de datos o no.
+	 * 
+	 * @param id Identificador único del cliente que se va a buscar.
+	 * @return true si existe, caso contrario false
+	 */
+	@Transactional(readOnly = true)
+	@Override
+	public boolean clienteExistente(Long id) {
+		return clienteDao.existsById(id);
+	}
+
+	/**
+	 * Metodo para actualizar uin cliente
+	 */
+	@Transactional
+	@Override
+	public void update(Cliente cliente) {
+		clienteDao.save(cliente);	
+	}
 }

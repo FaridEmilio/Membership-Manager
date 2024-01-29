@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
+
+<head th:replace="~{layout/base :: head}"></head>
+
+<body style="display: flex; flex-direction: column; min-height: 100%;">
+	<header th:replace="~{layout/base :: header}"></header>
+	<section class="hero-section"
+		th:style="'background: url(img/gym.jpg) no-repeat center; background-size: cover; width: 100%'">
+
+		<div class="container d-flex align-items-center justify-content-center fs-1 text-white flex-column">
+			<h2 class="titulo text-center text-light">Te ayudamos a cumplir tus objetivos y cuidar tu salud</h2>
+			<h3 class="fw-lighter text-center text-light">Profesor Facundo Barrios</h3>
+			<a class="btn boton-wpp mt-2" href="https://wa.me/+5493777609023" target="_blank">
+				<span><i class="bi bi-whatsapp"></i> Anotarme</span>
+				
+			</a>
+		</div>
+
+
+	</section>
+
+	<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

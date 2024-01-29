@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
+
+<head th:replace="~{layout/base :: head}"></head>
+
+<body style="display: flex; flex-direction: column; min-height: 100%;">
+	<header th:replace="~{layout/base :: header}"></header>
+
+	<section class="hero-section"
+		th:style="'background: url(img/gym.jpg) no-repeat center; background-size: cover; width: 100%'">
+
+		<div class="container d-flex align-items-center justify-content-center">
+			<div class="container mt-5">
+				<div class="form-signin">
+					<div class="row justify-content-center align-items-center">
+						<div class="col-lg-5 col-md-6 col-sm-10 col-12 shadow p-3 mb-5 bg-light rounded text-center">
+							<img class="mb-4" th:src="@{/img/full-gym.png}" alt="" width="150" height="150">
+							<h1 class="h3 mb-3 fw-normal">Iniciar sesión</h1>
+							<form class="mx-auto" th:action="@{/login}" method="post">
+								<div class="mb-2">
+									<div class="form-floating">
+										<input type="text" class="form-control" name="username" id="username"
+											placeholder="Usuario" autofocus required>
+										<label for="username">Usuario</label>
+									</div>
+								</div>
+								<div class="mb-2">
+									<div class="form-floating">
+										<input type="password" class="form-control" name="password" id="password"
+											placeholder="Contraseña" required>
+										<label for="password">Contraseña</label>
+									</div>
+								</div>
+
+								
+								<div class="d-grid gap-2 col-6 mx-auto mt-4">
+									<button class="btn btn" type="submit" style="background-color: gold;">Iniciar
+										sesión</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+
+	<footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>
