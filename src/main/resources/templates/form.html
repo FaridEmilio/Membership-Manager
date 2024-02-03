@@ -1,25 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-</head>
 
 <head th:replace="~{layout/layout :: head}">
-
-	<style>
-		form {
-			max-width: 500px;
-			/* Ancho máximo del formulario */
-			margin: auto;
-			/* Centra el formulario en la pantalla */
-			background-color: #fff;
-			/* Fondo blanco para el formulario */
-			padding: 40px;
-			/* Espacio interno del formulario */
-			border-radius: 30px;
-			/* Bordes redondeados */
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			/* Sombra ligera */
-		}
-	</style>
+	
 </head>
 
 <body>
@@ -28,8 +11,9 @@
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-5 shadow p-3 mb-5 bg-light rounded">
-				<h2 class="text-center" th:text="${titulo}"></h2>
-				<form th:action="${editMode} ? '/form/' + ${cliente.dni} : '/form'" th:object="${cliente}" method="post" class="mx-auto p-2">
+				<h2 class="titulo text-center" th:text="${titulo}"></h2>
+				<form th:action="${editMode} ? '/form/' + ${cliente.dni} : '/form'" th:object="${cliente}" method="post"
+					class="mx-auto p-2">
 
 					<div class="mb-2">
 						<label class="col-sm-2 col-form-label" for="nombre">Nombre</label>

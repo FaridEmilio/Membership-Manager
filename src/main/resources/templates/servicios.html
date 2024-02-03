@@ -5,14 +5,19 @@
 
 <body style="display: flex; flex-direction: column; min-height: 100%;">
 	<header th:replace="~{layout/base :: header}"></header>
-
-	<section th:replace="~{layout/base :: section}"
+	<section class="hero-section"
 		th:style="'background: url(img/gym.jpg) no-repeat center; background-size: cover; width: 100%'">
-		<div th:replace="~{layout/base :: div-centro}">
-			<h2>servicoss</h2>
+
+		<div class="container d-flex align-items-center justify-content-center fs-1 text-white flex-column">
+			<h2 class="titulo text-center text-light">
+				<br>
+				Sala de Musculación<br> 		
+				Entrenamiento Funcional<br>
+				Preparación fisica para deportistas<br>
+				Programas personalizados
+			</h2>		
 		</div>
 	</section>
-
 	<footer th:replace="~{layout/layout :: footer}"></footer>
 </body>
 
